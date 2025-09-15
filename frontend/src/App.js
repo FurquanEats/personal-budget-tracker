@@ -4,7 +4,6 @@ import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
 import Summary from './components/Summary';
 import CategoryPieChart from './components/CategoryPieChart';
-import './App.css';
 
 function App() {
   const [transactions, setTransactions] = useState([]);
@@ -22,27 +21,34 @@ function App() {
     fetchTransactions();
   }, []);
 
-  const handleTransactionAdded = (newTransaction) => {
-    fetchTransactions();
+  const handleTransactionAdded = () => {
+    fetchTransactions(); 
+  };
+
+  const handleTransactionDeleted = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5001/api/transactions/${id}`);
+      fetchTransactions(); 
+    } catch (error) {
+      console.error('Error deleting transaction:', error);
+    }
   };
 
   return (
-    <div style={{ padding: '30px' }}>
-      <header>
+    <div className="container">
+      <header className="app-header">
         <h1>Personal Budget Tracker</h1>
       </header>
 
-      <main>
-        <Summary transactions={transactions} />
+      <Summary transactions={transactions} />
 
-        <div style={{ display: 'flex', gap: '30px' }}>
-          <div style={{ flex: 1 }}>
-            <CategoryPieChart transactions={transactions} />
-          </div>
-          <div style={{ flex: 2 }}>
-            <TransactionForm onTransactionAdded={handleTransactionAdded} />
-            <TransactionList transactions={transactions} />
-          </div>
+      <main className="main-layout">
+        <div className="left-column">
+          <TransactionForm onTransactionAdded={handleTransactionAdded} />
+        </div>
+        <div className="right-column">
+          <CategoryPieChart transactions={transactions} />
+          <TransactionList transactions={transactions} onDelete={handleTransactionDeleted} />
         </div>
       </main>
     </div>

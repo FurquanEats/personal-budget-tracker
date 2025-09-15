@@ -5,7 +5,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
   const [type, setType] = useState('expense');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('Food');
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10)); // YYYY-MM-DD
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +22,8 @@ const TransactionForm = ({ onTransactionAdded }) => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5001/api/transactions', newTransaction);
-      onTransactionAdded(response.data);
+      await axios.post('http://localhost:5001/api/transactions', newTransaction);
+      onTransactionAdded(); 
       setAmount('');
     } catch (error) {
       console.error('Error adding transaction:', error);
@@ -32,29 +32,31 @@ const TransactionForm = ({ onTransactionAdded }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+    <div className="card">
       <h3>Add New Transaction</h3>
-      <div>
-        <label>Type:</label>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="expense">Expense</option>
-          <option value="income">Income</option>
-        </select>
-      </div>
-      <div>
-        <label>Amount:</label>
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" />
-      </div>
-      <div>
-        <label>Category:</label>
-        <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g., Food" />
-      </div>
-      <div>
-        <label>Date:</label>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-      </div>
-      <button type="submit">Add Transaction</button>
-    </form>
+      <form onSubmit={handleSubmit} className="transaction-form">
+        <div>
+          <label>Type:</label>
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+        <div>
+          <label>Amount:</label>
+          <input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" required />
+        </div>
+        <div>
+          <label>Category:</label>
+          <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g., Food" required />
+        </div>
+        <div>
+          <label>Date:</label>
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+        </div>
+        <button type="submit" className="btn">Add Transaction</button>
+      </form>
+    </div>
   );
 };
 

@@ -20,3 +20,18 @@ exports.addTransaction = async (req, res) => {
     res.status(500).json({ error: 'Failed to add transaction' });
   }
 };
+
+exports.deleteTransaction = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const transaction = await Transaction.findByPk(id);
+    if (transaction) {
+      await transaction.destroy();
+      res.status(204).send(); 
+    } else {
+      res.status(404).json({ error: 'Transaction not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete transaction' });
+  }
+};
