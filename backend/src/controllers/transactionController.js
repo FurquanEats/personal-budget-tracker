@@ -21,6 +21,28 @@ exports.addTransaction = async (req, res) => {
   }
 };
 
+exports.updateTransaction = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { amount, type, category, date, notes } = req.body;
+    const transaction = await Transaction.findByPk(id);
+    
+    if (transaction) {
+      transaction.amount = amount;
+      transaction.type = type;
+      transaction.category = category;
+      transaction.date = date;
+      transaction.notes = notes;
+      await transaction.save();
+      res.status(200).json(transaction);
+    } else {
+      res.status(404).json({ error: 'Transaction not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update transaction' });
+  }
+};
+
 exports.deleteTransaction = async (req, res) => {
   try {
     const { id } = req.params;
