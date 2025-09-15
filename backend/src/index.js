@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./database');
 const transactionRoutes = require('./routes/transactions');
+const reportRoutes = require('./routes/reports');
 
 require('./models/Transaction');
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/reports', reportRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello from the Personal Budget Tracker Backend!');
