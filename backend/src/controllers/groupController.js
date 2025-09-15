@@ -1,4 +1,5 @@
-const { Group, GroupExpense } = require('../models/Group');
+const Group = require('../models/Group');
+const GroupExpense = require('../models/GroupExpense');
 
 exports.getGroups = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState([]);
@@ -21,7 +21,7 @@ const GroupsPage = () => {
     setGroupName('');
     fetchGroups();
   };
-  
+
   return (
     <div>
       <div className="card" style={{ marginBottom: '2rem' }}>
@@ -38,9 +38,13 @@ const GroupsPage = () => {
       <div className="card">
         <h3>Your Groups</h3>
         {groups.length === 0 ? <p>You haven't created any groups yet.</p> : (
-          <ul>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
             {groups.map(group => (
-              <li key={group.id}>{group.name}</li>
+              <li key={group.id} style={{ marginBottom: '1rem' }}>
+                <Link to={`/groups/${group.id}`} style={{ textDecoration: 'none', fontSize: '1.2rem', color: 'var(--primary-color)' }}>
+                  {group.name}
+                </Link>
+              </li>
             ))}
           </ul>
         )}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiDollarSign, FiGrid, FiUsers } from 'react-icons/fi';
+import ThemeToggle from './ThemeToggle';
 
 const Sidebar = () => {
   const linkStyle = {
@@ -17,11 +18,14 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <h1><FiDollarSign /> BudgetApp</h1>
-      <nav>
-        <Link to="/" style={linkStyle}><FiGrid /> Dashboard</Link>
-        <Link to="/groups" style={linkStyle}><FiUsers /> Groups</Link>
-      </nav>
+      <div> {}
+        <h1><FiDollarSign /> BudgetApp</h1>
+        <nav>
+          <Link to="/" style={linkStyle}><FiGrid /> Dashboard</Link>
+          <Link to="/groups" style={linkStyle}><FiUsers /> Groups</Link>
+        </nav>
+      </div>
+      <ThemeToggle /> {}
     </div>
   );
 };

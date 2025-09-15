@@ -176,3 +176,32 @@ body {
   width: 400px;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
+
+/* Dark Theme Variables */
+.dark-theme {
+  --bg-main: #0f172a;      /* Slate 900 */
+  --bg-sidebar: #1e293b; /* Slate 800 */
+  --bg-card: #1e293b;    /* Slate 800 */
+  
+  --text-dark: #f1f5f9;    /* Slate 100 */
+  --text-muted: #94a3b8;   /* Slate 400 */
+
+  --border-color: #334155; /* Slate 700 */
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+}
