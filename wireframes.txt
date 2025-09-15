@@ -1,0 +1,68 @@
+// This file describes the layout of our application's screens.
+
+// SCREEN 1: Dashboard
+//----------------------------------
+// | Navigation Bar (Logo, Dashboard, Groups, Logout) |
+//----------------------------------------------------
+// |                                                  |
+// |  Welcome, [Username]!                            |
+// |                                                  |
+// |  [Summary Box: Total Income] [Summary Box: Total Expense] [Summary Box: Savings] |
+// |                                                  |
+// |  --------------------      --------------------  |
+// |  |                  |      |                  |  |
+// |  | Monthly Income   |      | Spending by      |  |
+// |  | vs Expense       |      | Category         |  |
+// |  | (Bar Chart)      |      | (Pie Chart)      |  |
+// |  |                  |      |                  |  |
+// |  --------------------      --------------------  |
+// |                                                  |
+// |  Recent Transactions                  [Add Transaction +] Button |
+// |  -------------------------------------------------------------   |
+// |  | Date | Category | Type    | Amount | Edit | Delete         |   |
+// |  |------|----------|---------|--------|------|----------------|   |
+// |  | ...  | ...      | ...     | ...    | ...  | ...            |   |
+// |  -------------------------------------------------------------   |
+// |                                                  |
+// ----------------------------------------------------
+
+
+// SCREEN 2: Add/Edit Transaction (This could be a pop-up modal)
+//----------------------------------
+// | Add New Transaction                      [X] Close |
+//----------------------------------------------------
+// |                                                  |
+// |  Type: (o) Expense  ( ) Income                   |
+// |                                                  |
+// |  Amount: [ $_________ ]                          |
+// |                                                  |
+// |  Category: [ Dropdown: Food, Transport, ... ]    |
+// |                                                  |
+// |  Date: [ Date Picker: YYYY-MM-DD ]               |
+// |                                                  |
+// |  Notes: [ Text area for optional notes... ]      |
+// |                                                  |
+// |  [ Save Transaction ] Button  [ Cancel ] Button  |
+// |                                                  |
+// ----------------------------------------------------
+
+
+// SCREEN 3: Groups Page (Individual Group View)
+//----------------------------------
+// | Navigation Bar (Logo, Dashboard, Groups, Logout) |
+//----------------------------------------------------
+// |                                                  |
+// |  Group Name: "[Trip to the Mountains]"           |
+// |                                                  |
+// |  Group Balances (Who owes whom):                 |
+// |  - Alice owes you $25                            |
+// |  - You owe Bob $10                               |
+// |                                                  |
+// |  Group Expenses              [Add Group Expense +] Button |
+// |  ----------------------------------------------------------|
+// |  | Date | Description | Paid By | Amount |                |
+// |  |------|-------------|---------|--------|----------------|
+// |  | ...  | ...         | ...     | ...    |                |
+// |  ----------------------------------------------------------|
+// |                                                  |
+// ----------------------------------------------------

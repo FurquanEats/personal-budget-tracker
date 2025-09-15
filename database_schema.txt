@@ -1,0 +1,77 @@
+// This file describes the structure of our SQLite database.
+
+// Table to store user information
+Table Users {
+  id INTEGER PRIMARY KEY
+  username TEXT UNIQUE NOT NULL
+  password TEXT NOT NULL
+}
+
+// Table to store all individual transactions
+Table Transactions {
+  id INTEGER PRIMARY KEY
+  user_id INTEGER NOT NULL
+  amount REAL NOT NULL
+  type TEXT NOT NULL // 'income' or 'expense'
+  category TEXT NOT NULL
+  date TEXT NOT NULL
+  notes TEXT
+
+  Ref: Users.id < user_id
+}
+
+// Table to store monthly budgets for categories
+Table Budgets {
+  id INTEGER PRIMARY KEY
+  user_id INTEGER NOT NULL
+  category TEXT NOT NULL
+  limit REAL NOT NULL
+  month TEXT NOT NULL // Format: 'YYYY-MM', e.g., '2025-09'
+
+  Ref: Users.id < user_id
+}
+
+// Table for creating groups for shared expenses
+Table Groups {
+  id INTEGER PRIMARY KEY
+  name TEXT NOT NULL
+  created_by_user_id INTEGER NOT NULL
+
+  Ref: Users.id < created_by_user_id
+}
+
+// Table to link users to the groups they are members of
+Table GroupMembers {
+  group_id INTEGER NOT NULL
+  user_id INTEGER NOT NULL
+
+  Ref: Groups.id < group_id
+  Ref: Users.id < user_id
+}
+
+// Table for shared expenses within a group
+Table GroupExpenses {
+  id INTEGER PRIMARY KEY
+  group_id INTEGER NOT NULL
+  description TEXT NOT NULL
+  amount REAL NOT NULL
+  paid_by_user_id INTEGER NOT NULL
+  date TEXT NOT NULL
+
+  Ref: Groups.id < group_id
+  Ref: Users.id < paid_by_user_id
+}
+
+// Table to define how a specific shared expense is split
+// This allows for unequal splits. For an equal split of $30 among 3 people,
+// you would create two entries here for the two people who didn't pay,
+// with amount_owed = $10 each.
+Table ExpenseSplits {
+  id INTEGER PRIMARY KEY
+  expense_id INTEGER NOT NULL
+  owed_by_user_id INTEGER NOT NULL
+  amount_owed REAL NOT NULL
+
+  Ref: GroupExpenses.id < expense_id
+  Ref: Users.id < owed_by_user_id
+}
