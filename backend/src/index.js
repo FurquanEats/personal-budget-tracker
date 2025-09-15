@@ -3,8 +3,14 @@ const cors = require('cors');
 const sequelize = require('./database');
 const transactionRoutes = require('./routes/transactions');
 const reportRoutes = require('./routes/reports');
+const groupRoutes = require('./routes/groups');
 
-require('./models/Transaction');
+const Transaction = require('./models/Transaction');
+const Group = require('./models/Group');
+const GroupExpense = require('./models/GroupExpense');
+
+Group.hasMany(GroupExpense, { onDelete: 'CASCADE' });
+GroupExpense.belongsTo(Group);
 
 const app = express();
 const PORT = 5001;
@@ -14,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/groups', groupRoutes); 
 
 app.get('/', (req, res) => {
   res.send('Hello from the Personal Budget Tracker Backend!');
