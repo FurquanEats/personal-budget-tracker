@@ -1,34 +1,34 @@
 import React from 'react';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
-const TransactionList = ({ transactions, onDelete }) => {
+const TransactionList = ({ transactions, onDelete, onEdit }) => {
   return (
-    <div className="card">
-      <h3>Recent Transactions</h3>
+    <div className="card transaction-list-container">
+      <h3>History</h3>
       <table className="transaction-table">
         <thead>
           <tr>
-            <th>Date</th>
             <th>Category</th>
+            <th>Date</th>
             <th>Type</th>
             <th>Amount</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((t) => (
             <tr key={t.id}>
-              <td>{t.date}</td>
               <td>{t.category}</td>
-              <td>
-                <span className={t.type === 'expense' ? 'text-expense' : 'text-income'}>
-                  {t.type}
-                </span>
+              <td>{t.date}</td>
+              <td style={{ color: t.type === 'expense' ? 'var(--danger-color)' : 'var(--success-color)' }}>
+                {t.type}
               </td>
               <td>${t.amount.toFixed(2)}</td>
               <td>
-                <button onClick={() => onDelete(t.id)} className="delete-btn">
-                  X
-                </button>
+                <div className="action-buttons">
+                  <button onClick={() => onEdit(t)} className="action-btn edit-btn"><FiEdit /></button>
+                  <button onClick={() => onDelete(t.id)} className="action-btn delete-btn"><FiTrash2 /></button>
+                </div>
               </td>
             </tr>
           ))}

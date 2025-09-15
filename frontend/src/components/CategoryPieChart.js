@@ -14,36 +14,20 @@ const CategoryPieChart = ({ transactions }) => {
 
   const chartData = {
     labels: Object.keys(expenseData),
-    datasets: [
-      {
-        label: 'Spending by Category',
-        data: Object.values(expenseData),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-          'rgba(153, 102, 255, 0.7)',
-          'rgba(255, 159, 64, 0.7)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+    datasets: [{
+      data: Object.values(expenseData),
+      backgroundColor: ['#3b82f6', '#ef4444', '#22c55e', '#f59e0b', '#8b5cf6', '#ec4899'],
+      borderWidth: 0,
+    }],
   };
+  
+  const options = { plugins: { legend: { position: 'bottom' } } };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+    <div className="card">
       <h3>Spending by Category</h3>
       {Object.keys(expenseData).length > 0 ? (
-        <Pie data={chartData} />
+        <Pie data={chartData} options={options} />
       ) : (
         <p>No expense data to display.</p>
       )}
