@@ -10,19 +10,23 @@ import TransactionList from '../components/TransactionList';
 import Summary from '../components/Summary';
 import CategoryPieChart from '../components/CategoryPieChart';
 import EditTransactionModal from '../components/EditTransactionModal';
+import RecentActivity from '../components/RecentActivity'; // New component import
 
 const DashboardPage = () => {
-  // State Management
+  // --- STATE MANAGEMENT ---
   const [transactions, setTransactions] = useState([]);
   const [editingTransaction, setEditingTransaction] = useState(null);
 
-  // API Call to fetch all transactions
+  // --- API & DATA HANDLING ---
   const fetchTransactions = async () => {
     try {
+      // Note: This API call will fail until we build the frontend for login,
+      // as it requires an authentication token. This is expected for now.
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/transactions`);
       setTransactions(response.data);
     } catch (error) {
       console.error('Error fetching transactions:', error);
+      // In the next phase, we'll handle token errors and redirect to login.
     }
   };
 
@@ -31,15 +35,13 @@ const DashboardPage = () => {
     fetchTransactions();
   }, []);
 
-  // Handler Functions
-  const handleTransactionAdded = () => {
-    fetchTransactions(); // Refetch all data to ensure UI is up to date
-  };
+  // --- EVENT HANDLERS ---
+  const handleTransactionAdded = () => fetchTransactions();
 
   const handleTransactionDeleted = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/transactions/${id}`);
-      fetchTransactions(); // Refetch data to update the UI
+      fetchTransactions();
     } catch (error) {
       console.error('Error deleting transaction:', error);
     }
@@ -55,55 +57,72 @@ const DashboardPage = () => {
     }
   };
 
-  // Modal State Handlers
-  const handleEdit = (transaction) => {
-    setEditingTransaction(transaction);
+  // --- MODAL STATE HANDLERS ---
+  const handleEdit = (transaction) => setEditingTransaction(transaction);
+  const handleCloseModal = () => setEditingTransaction(null);
+
+  // --- ANIMATION VARIANTS ---
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
   };
 
-  const handleCloseModal = () => {
-    setEditingTransaction(null);
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
   };
 
   return (
-    <>
+    <div className="container">
       <motion.div
-        className="dashboard-grid"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <div className="summary-grid">
+        {/* --- Top Row: Summary --- */}
+        <motion.div variants={itemVariants}>
           <Summary transactions={transactions} />
+        </motion.div>
+        
+        {/* --- Main Two-Column Layout --- */}
+        <div className="dashboard-grid-layout" style={{ marginTop: '1.5rem' }}>
+          
+          {/* Left Column */}
+          <motion.div variants={itemVariants} className="dashboard-column">
+            <div className="card">
+              <TransactionForm onTransactionAdded={handleTransactionAdded} />
+            </div>
+            <div className="card">
+              <TransactionList
+                transactions={transactions}
+                onDelete={handleTransactionDeleted}
+                onEdit={handleEdit}
+              />
+            </div>
+          </motion.div>
+          
+          {/* Right Column */}
+          <motion.div variants={itemVariants} className="dashboard-column">
+            <div className="card">
+              <CategoryPieChart transactions={transactions} />
+            </div>
+            <div className="card">
+              <RecentActivity />
+            </div>
+          </motion.div>
+
         </div>
-
-        <motion.div
-          className="add-transaction-card card"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <TransactionForm onTransactionAdded={handleTransactionAdded} />
-        </motion.div>
-
-        <motion.div
-          className="pie-chart-card card"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <CategoryPieChart transactions={transactions} />
-        </motion.div>
-
-        <motion.div
-          className="history-card card"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <TransactionList transactions={transactions} onDelete={handleTransactionDeleted} onEdit={handleEdit} />
-        </motion.div>
       </motion.div>
-
+      
+      {/* --- Edit Modal (rendered outside the main layout) --- */}
       {editingTransaction && (
         <EditTransactionModal
           transaction={editingTransaction}
@@ -111,7 +130,7 @@ const DashboardPage = () => {
           onSave={handleSaveTransaction}
         />
       )}
-    </>
+    </div>
   );
 };
 

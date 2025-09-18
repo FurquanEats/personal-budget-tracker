@@ -1,33 +1,40 @@
-import React, { useState, useEffect } from 'react';
+// In frontend/src/pages/GroupDetailPage.js
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const GroupDetailPage = () => {
-  const { id } = useParams(); 
+  const { id } = useParams(); // Gets the group ID from the URL
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [paidBy, setPaidBy] = useState('');
 
-  const fetchGroupDetails = async () => {
+  // We wrap fetchGroupDetails in useCallback to stabilize the function.
+  // This tells React that the function itself only changes when the `id` from the URL changes.
+  const fetchGroupDetails = useCallback(async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/api/groups/${id}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/groups/${id}`);
       setGroup(res.data);
     } catch (error) {
       console.error("Failed to fetch group details:", error);
     }
-  };
+  }, [id]);
 
+  // Now, useEffect can safely depend on the stable fetchGroupDetails function.
+  // This satisfies the dependency array warning and follows best practices.
   useEffect(() => {
     fetchGroupDetails();
-  }, [id]);
+  }, [fetchGroupDetails]);
 
   const handleAddExpense = async (e) => {
     e.preventDefault();
     const expenseData = { description, amount: parseFloat(amount), paidBy };
     try {
-      await axios.post(`http://localhost:5001/api/groups/${id}/expenses`, expenseData);
-      fetchGroupDetails(); 
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/groups/${id}/expenses`, expenseData);
+      fetchGroupDetails(); // Refresh details after adding a new expense
+      // Reset form fields
       setDescription('');
       setAmount('');
       setPaidBy('');
@@ -36,7 +43,10 @@ const GroupDetailPage = () => {
     }
   };
 
-  if (!group) return <div>Loading...</div>;
+  // Display a loading state while the group data is being fetched
+  if (!group) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="dashboard-layout">
@@ -62,7 +72,13 @@ const GroupDetailPage = () => {
       <div className="card">
         <h3>Expense History</h3>
         <table className="transaction-table">
-          <thead><tr><th>Description</th><th>Paid By</th><th>Amount</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Paid By</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
           <tbody>
             {group.GroupExpenses.map(exp => (
               <tr key={exp.id}>

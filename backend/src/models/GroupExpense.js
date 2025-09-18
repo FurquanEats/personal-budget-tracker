@@ -1,3 +1,5 @@
+// In backend/src/models/GroupExpense.js
+
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 
@@ -10,7 +12,7 @@ const GroupExpense = sequelize.define('GroupExpense', {
     type: DataTypes.REAL,
     allowNull: false
   },
-  paidBy: { 
+  paidBy: {
     type: DataTypes.STRING,
     allowNull: false
   }

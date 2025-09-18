@@ -1,3 +1,5 @@
+// In backend/src/models/Transaction.js
+
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 
@@ -8,7 +10,7 @@ const Transaction = sequelize.define('Transaction', {
   },
   type: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: false // 'income' or 'expense'
   },
   category: {
     type: DataTypes.STRING,
@@ -21,6 +23,7 @@ const Transaction = sequelize.define('Transaction', {
   notes: {
     type: DataTypes.STRING
   }
+  // The 'userId' is added automatically by the association in index.js
 });
 
 module.exports = Transaction;
