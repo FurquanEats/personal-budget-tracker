@@ -21,7 +21,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
   };
 
   return (
-    <div className="card">
+    <>
       <h3>Add Transaction</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -45,7 +45,7 @@ const TransactionForm = ({ onTransactionAdded }) => {
         </div>
         <button type="submit" className="btn">Add Transaction</button>
       </form>
-    </div>
+    </>
   );
 };
 

@@ -1,31 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FiDollarSign, FiGrid, FiUsers } from 'react-icons/fi';
-import ThemeToggle from './ThemeToggle';
+// In frontend/src/components/Sidebar.js
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { FiDollarSign, FiGrid, FiUsers, FiSun, FiMoon } from 'react-icons/fi';
+import { ThemeContext } from '../context/ThemeContext';
 
 const Sidebar = () => {
-  const linkStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    color: '#f8fafc',
-    textDecoration: 'none',
-    padding: '0.75rem 0',
-    fontSize: '1.1rem',
-    gap: '1rem',
-    opacity: 0.8,
-    transition: 'opacity 0.2s'
-  };
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <div className="sidebar">
-      <div> {}
-        <h1><FiDollarSign /> BudgetApp</h1>
-        <nav>
-          <Link to="/" style={linkStyle}><FiGrid /> Dashboard</Link>
-          <Link to="/groups" style={linkStyle}><FiUsers /> Groups</Link>
+      <div>
+        <div className="sidebar-header">
+          <FiDollarSign /> BudgetApp
+        </div>
+        <nav className="sidebar-nav">
+          <NavLink to="/"><FiGrid /> Dashboard</NavLink>
+          <NavLink to="/groups"><FiUsers /> Groups</NavLink>
         </nav>
       </div>
-      <ThemeToggle /> {}
+      <button onClick={toggleTheme} className="theme-toggle">
+        {theme === 'light' ? <FiMoon /> : <FiSun />}
+        <span>{theme === 'light' ? 'Dark' : 'Light'} Mode</span>
+      </button>
     </div>
   );
 };

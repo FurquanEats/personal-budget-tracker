@@ -3,7 +3,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
 const TransactionList = ({ transactions, onDelete, onEdit }) => {
   return (
-    <div className="card transaction-list-container">
+   <>
       <h3>History</h3>
       <table className="transaction-table">
         <thead>
@@ -34,7 +34,7 @@ const TransactionList = ({ transactions, onDelete, onEdit }) => {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 };
 

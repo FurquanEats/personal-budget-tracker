@@ -1,3 +1,4 @@
+// In frontend/src/components/Summary.js
 import React from 'react';
 import { FiTrendingUp, FiTrendingDown, FiDollarSign } from 'react-icons/fi';
 
@@ -7,20 +8,20 @@ const Summary = ({ transactions }) => {
   const balance = totalIncome - totalExpense;
 
   return (
-    <div className="summary-grid">
-      <div className="card summary-card">
+    <>
+      <div className="card">
         <h4><FiTrendingUp /> Total Income</h4>
-        <p className="income">${totalIncome.toFixed(2)}</p>
+        <p className="income">₹{totalIncome.toFixed(2)}</p>
       </div>
-      <div className="card summary-card">
+      <div className="card">
         <h4><FiTrendingDown /> Total Expense</h4>
-        <p className="expense">${totalExpense.toFixed(2)}</p>
+        <p className="expense">₹{totalExpense.toFixed(2)}</p>
       </div>
-      <div className="card summary-card">
+      <div className="card">
         <h4><FiDollarSign /> Balance</h4>
-        <p className="balance">${balance.toFixed(2)}</p>
+        <p className="balance">₹{balance.toFixed(2)}</p>
       </div>
-    </div>
+    </>
   );
 };
 
